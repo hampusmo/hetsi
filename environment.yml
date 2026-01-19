@@ -1,0 +1,20 @@
+name: hetsi
+channels:
+  - defaults
+dependencies:
+  - pip=24.2
+  - python=3.12.8
+  - pip:
+      - h5py==3.12.1
+      - matplotlib==3.10.0
+      - matplotlib-inline==0.1.7
+      - nibabel==5.3.2
+      - numpy==2.2.1
+      - scikit-learn==1.6.1
+      - scipy==1.15.1
+      - torch==2.5.1
+      - torchaudio==2.5.1
+      - torchinfo==1.8.0
+      - torchvision==0.20.1
+      - tornado==6.4.2
+      - tqdm==4.67.1

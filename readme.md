@@ -45,3 +45,18 @@ Example codes for four different cases are included in "Scripts". Note that the 
 ## Output
 
 The output from the method can be fetched with the regressor.full_pred method and returns tensors which are flattened along the non-fixed axes. The fixed axes are moved to the right and to restore the original structure you should reshape the "flexible" dimensions back to their original shape. The fixed axes maintain their original order and shape.
+
+## Datasets
+
+The data used in the scripts are available through BIOQIC Apps (https://bioqic-apps.charite.de), as well as the Brain Biomechanics Imaging Repository (BBIR) (https://www.nitrc.org/projects/bbir/). 
+
+The following scripts use the following data for the examples:
+
+- train_boxfem.py: FEM box simulation - four_target_phantom.mat (BIOQIC)
+- train_boxmre.py: MRE phantom data - phantom_unwrapped.mat (BIOQIC)
+- train_brainfem.py: FEM simulation of a human brain - BrainSimDisplacements.mat (BIOQIC)
+- train_invivo.py: U01_UDEL_0001_01_v4 (BBIR)
+
+## Citation
+
+If you find this work useful or use it as a part of your work, please include a reference to this repository. Further publication details may follow soon.

@@ -22,7 +22,9 @@ def main():
 
     dx, dy, dz = params[0,0]["dx_m"], params[0,0]["dy_m"], params[0,0]["dz_m"]
     y_spacing = np.array([1,dx[0,0],dy[0,0],dz[0,0],1]).squeeze()
-    y_data = np.moveaxis(y_data, -1, 0)
+    y_data = np.moveaxis(y_data, -1, 0) # Freq axis leading
+    y_data = np.moveaxis(y_data, 2, 1) # X-axis leading y and z
+    y_data = y_data[..., [1,0,2]] # Rearrange feature vector
     
     # General dataset parameters
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

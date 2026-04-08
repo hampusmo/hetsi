@@ -23,6 +23,7 @@ def loadBioqicFEM(path):
         os.chdir(working_dir)
 
         phase_data = np.transpose(phase_data, (4, 1, 0, 2, 3)).astype(np.complex128)
+        phase_data = phase_data[..., [1,0,2]] # Rearrange feature vector
 
         return phase_data
 
@@ -49,8 +50,8 @@ def loadBioqic(path, freq_idx = 1, time_fft = True, version = "phantom_unwrapped
 
                 phase_data = np.array([file["phase_unwrapped"]]).squeeze()
 
-            print(phase_data.shape)
             phase_data = np.transpose(phase_data, (0, 4, 5, 3, 2, 1))
+            phase_data = phase_data[..., [1,0,2]] # Rearrange feature vector
 
         elif version == "phantom_unwrapped_dejittered.mat":
 

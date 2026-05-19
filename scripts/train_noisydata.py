@@ -143,35 +143,7 @@ def main():
     pfull = torch.stack(pfull, dim = -1)
     #bfull = torch.stack(bfull, dim = -1)
 
-    # Save results
-    if not tpath.endswith("/"):
-        tpath += "/"
-
-    if not os.path.isdir(tpath):
-        os.mkdir(tpath)
-
-    #torch.save(model.state_dict(), tpath + "model.pth")
-    #torch.save(optimizer.state_dict(), tpath + "opt.pth")
-    torch.save(pfull, tpath + "pred.pth")
-    torch.save(bfull, tpath + "base.pth")
-    torch.save(yfull, tpath + "target.pth")
-    #torch.save(xs, tpath + "input.pth")
-    
-    #with open(tpath + "losses.json", "w") as file:
-    #    json.dump(results, file)
-
-    # Parmeters to JSON
-    ser_params = {}
-    
-    for key, value in params.items():
-        if hasattr(value, "to_json"):
-            ser_params[key] = value
-        else:
-            ser_params[key] = str(value)
-
-    with open(tpath + "config.json", "w") as file:
-        strrep = json.dumps(ser_params, separators=(",", ":"))
-        file.write(strrep)
+    hsi.utils.save_results(tpath, None, None, pfull, None, yfull, None, None, params)
 
 if __name__ == "__main__":
     main()

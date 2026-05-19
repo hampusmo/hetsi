@@ -2,6 +2,9 @@
 import numpy as np
 import torch
 import hetsi.diff as diff
+from os import mkdir
+from os.path import isdir
+import json
 
 def gen_coord_grid(dataset, spacing, dtype = np.float64, strip_excess = False, normalize = False):
     idx = np.indices(dataset.shape, dtype = dtype)
@@ -188,6 +191,44 @@ def modified_gini_coefficient(data):
     delta = torch.sum(torch.abs(data_i.abs() - data_j.abs()), dim = (-1,-2))
     g = delta / (2 * data.shape[-1] * torch.sum(data.abs(), dim = -1))
     return data.shape[-1] / (data.shape[-1] - 1) * g # Including bias correction
+
+def save_results(target_path, model_state = None, optimizer_state = None, prediction = None, bases = None, targets = None, inputs = None, results = None, parameters = None):
+    if not target_path.endswith("/"):
+        target_path += "/"
+
+    if not isdir(target_path):
+        mkdir(target_path)
+
+    if model_state is not None:
+        torch.save(model_state, target_path + "model.pth")
+    if optimizer_state is not None:
+        torch.save(optimizer_state, target_path + "opt.pth")
+    if prediction is not None:
+        torch.save(prediction, target_path + "pred.pth")
+    if bases is not None:
+        torch.save(bases, target_path + "base.pth")
+    if targets is not None:
+        torch.save(targets, target_path + "target.pth")
+    if inputs is not None:
+        torch.save(inputs, target_path + "input.pth")
+    
+    if results is not None:
+        with open(target_path + "losses.json", "w") as file:
+            json.dump(results, file)
+
+    # Parmeters to JSON
+    ser_params = {}
+    
+    if parameters is not None:
+        for key, value in parameters.items():
+            if hasattr(value, "to_json"):
+                ser_params[key] = value
+            else:
+                ser_params[key] = str(value)
+
+        with open(target_path + "config.json", "w") as file:
+            strrep = json.dumps(ser_params, separators=(",", ":"))
+            file.write(strrep)
 
 if __name__ == "__main__":
     pass

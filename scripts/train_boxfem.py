@@ -144,34 +144,7 @@ def main():
     # Save results
     params["times"] = [tstart, tload, tpreproc, tsetup, tregress]
 
-    if not tpath.endswith("/"):
-        tpath += "/"
-
-    if not os.path.isdir(tpath):
-        os.mkdir(tpath)
-
-    torch.save(model.state_dict(), tpath + "model.pth")
-    torch.save(optimizer.state_dict(), tpath + "opt.pth")
-    torch.save(pred.detach(), tpath + "pred.pth")
-    torch.save(bases, tpath + "base.pth")
-    torch.save(ys, tpath + "target.pth")
-    torch.save(xs, tpath + "input.pth")
-    
-    with open(tpath + "losses.json", "w") as file:
-        json.dump(results, file)
-
-    # Parmeters to JSON
-    ser_params = {}
-    
-    for key, value in params.items():
-        if hasattr(value, "to_json"):
-            ser_params[key] = value
-        else:
-            ser_params[key] = str(value)
-
-    with open(tpath + "config.json", "w") as file:
-        strrep = json.dumps(ser_params, separators=(",", ":"))
-        file.write(strrep)
+    hsi.utils.save_results(tpath, model.state_dict(), optimizer.state_dict(), pred, bases, ys, xs, results, params)
 
 if __name__ == "__main__":
     main()

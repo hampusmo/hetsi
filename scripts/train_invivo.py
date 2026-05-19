@@ -5,7 +5,6 @@ sys.path.append("..") # Add top level dir
 import hetsi as hsi
 import numpy as np
 import torch
-import json
 import time
 
 def main():

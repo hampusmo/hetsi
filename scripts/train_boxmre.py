@@ -6,7 +6,6 @@ import hetsi as hsi
 import numpy as np
 import torch
 import scipy.ndimage as spi
-import json
 import time
 
 def main():

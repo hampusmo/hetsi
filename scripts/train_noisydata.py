@@ -6,7 +6,6 @@ import hetsi as hsi
 import numpy as np
 import torch
 import os
-import json
 
 def main():
 

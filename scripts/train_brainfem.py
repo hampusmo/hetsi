@@ -6,7 +6,6 @@ import hetsi as hsi
 import numpy as np
 import torch
 import scipy.io as spio
-import json
 import time
 
 def main():

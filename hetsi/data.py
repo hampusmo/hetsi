@@ -32,7 +32,7 @@ def loadBioqicFEM(path):
         os.chdir(working_dir)
         raise Warning("Failed to load dataset")
 
-def loadBioqic(path, freq_idx = 1, time_fft = True, version = "phantom_unwrapped.mat"):
+def loadBioqic(path, version = "phantom_unwrapped.mat"):
 
     """Loads the unwrapped dataset and performs:
     1. Modifies the Bioqic dataset to the preferred shape: Freq, X, Y, Z, T, Dir.
@@ -61,9 +61,6 @@ def loadBioqic(path, freq_idx = 1, time_fft = True, version = "phantom_unwrapped
             phase_data = np.transpose(phase_data, (5, 1, 0, 2, 3, 4))
 
         os.chdir(working_dir)
-
-        if time_fft:
-            phase_data = fftFreqFilter(phase_data, t_dim = -2, freq_idxs = freq_idx)
 
         return phase_data
 

@@ -99,7 +99,7 @@ class HGDivBasis(tud.Dataset):
         gdiv = self.b1[idx, ...]
         div = self.b2[idx, ...]
 
-        return p[..., i:i+1] * gdiv + div * dg.transpose(-1, -2) / (p[..., i:i+1] + self.eps)
+        return gdiv + div * dg.transpose(-1, -2) * hsu.complex_inverse(p[..., i:i+1], self.eps)
 
 
 class HLaplBasis(tud.Dataset):
@@ -133,7 +133,7 @@ class HLaplBasis(tud.Dataset):
         lapl = self.b2[idx, ...]
         stens = self.b1[idx, ...]
 
-        return lapl + torch.sum(dg * 2 / (p[..., i:i+1] + self.eps) * stens, dim = -1, keepdim=True)
+        return lapl + torch.sum(hsu.complex_inverse(p[..., i:i+1], self.eps) * dg * 2 * stens, dim = -1, keepdim=True)
 
 # Main class
 

@@ -192,6 +192,10 @@ def modified_gini_coefficient(data):
     g = delta / (2 * data.shape[-1] * torch.sum(data.abs(), dim = -1))
     return data.shape[-1] / (data.shape[-1] - 1) * g # Including bias correction
 
+def complex_inverse(x, eps = 1.e-3):
+    # Returns the x.conj / (|x|^2 + eps), for limiting contribution of linear combination
+    return x.conj() / (x * x.conj() + eps)
+
 def save_results(target_path, model_state = None, optimizer_state = None, prediction = None, bases = None, targets = None, inputs = None, results = None, parameters = None):
     if not target_path.endswith("/"):
         target_path += "/"

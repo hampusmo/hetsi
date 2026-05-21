@@ -43,8 +43,8 @@ def main():
     bias = np.ones_like(y_filtered, dtype = y_filtered.dtype)
 
     # Static library components
-    library = [*dx_split, curl, div, lapl, gdiv, bias] # Static
-    #library = [*dx_split, curl, div, bias] # Lapl and gdiv in dynamic basis
+    #library = [*dx_split, curl, div, lapl, gdiv, bias] # Static
+    library = [*dx_split, curl, div, bias] # Lapl and gdiv in dynamic basis
 
 
     # Target

@@ -18,7 +18,7 @@ def main():
     y_data = hsi.data.loadBioqic(fpath)
 
     t_load = time.time() - t_start
-    print("Loading time: ", t_load)
+    #print("Loading time: ", t_load)
     times.append(t_load)
 
     # General dataset parameters
@@ -78,7 +78,7 @@ def main():
 
     t_pre = time.time() - t_start
     times.append(t_pre)
-    print("Preprocessing time: ", t_pre)
+    #print("Preprocessing time: ", t_pre)
 
     # Predictor
     rff_scale = 100. # Approx. 6 voxel features @ 1.5mm -> 100
@@ -143,7 +143,7 @@ def main():
 
     t_setup = time.time() - t_start
     times.append(t_setup)
-    print("Setup time: ", t_setup)
+    #print("Setup time: ", t_setup)
 
     results = model.regress(epochs=params.get("epochs", 1000))
 

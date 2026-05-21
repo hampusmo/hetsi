@@ -92,7 +92,7 @@ def main():
     reg = hsi.loss.mL1Reg(l1_reg)
     
     # Regression
-    params = {"epochs": 10, #300, 
+    params = {"epochs": 300, 
               "batch_size": 2048, 
               "regularization": reg,
               "l1_strength": l1_reg,

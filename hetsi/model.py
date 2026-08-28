@@ -398,12 +398,12 @@ class freq_kelvin(torch.nn.Module):
     Kelvin-Voigt style preprocessing module, modifying the predicted variables along the frequency axis according to fixed relationship.
     """
 
-    def __init__(self):
+    def __init__(self, freqs = [30,50,70]):
         super().__init__()
-        self.register_buffer("omega", torch.pi * 2 * torch.tensor([30,50,70], dtype = torch.complex64))
+        self.register_buffer("omega", torch.pi * 2 * torch.tensor(freqs, dtype = torch.complex64))
         
     def forward(self, p):
-        p = p * torch.ones((1,3,1,p.shape[-1]), device=p.device, dtype = p.dtype)
+        p = p * torch.ones((1, self.omega.shape[0],1,p.shape[-1]), device=p.device, dtype = p.dtype)
 
         c11 = p[..., -2:-1].real.to(p.dtype)
         c12 = p[..., -2:-1].imag.to(p.dtype)

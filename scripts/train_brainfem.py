@@ -74,6 +74,9 @@ def main():
     dynamic = [hsi.model.HLaplBasis(strain_tensor / tstd, t_lapl / tstd, eps = dyn_eps), hsi.model.HGDivBasis(t_gdiv / tstd, t_div / tstd, eps = dyn_eps)] # Dynamic
     #dynamic = [] # Static
 
+    pp = None
+    #pp = hsi.model.freq_kelvin(freqs = [24,28,32,36,40,44,48,52,56,60]).to(device) # Kelvin-Voigt preprocessing
+
     tpreproc = time.time() - tstart
 
     # Predictor
@@ -84,7 +87,13 @@ def main():
                               dtype = torch.complex64,
                               scale = rff_scale).to(device)
     
-    opt = torch.optim.Adam(pred.parameters(), lr = 1e-3)
+    lr = 1e-3
+
+    if pp is None:
+        opt = torch.optim.Adam(pred.parameters(), lr = lr)
+    else:
+        opt = torch.optim.Adam(list(pred.parameters()) + list(pp.parameters()), lr = lr)
+
     sch = torch.optim.lr_scheduler.ExponentialLR(opt, gamma = 0.98)
     #sch = None
 
@@ -102,10 +111,13 @@ def main():
               "optimizer": opt,
               "scheduler": sch,
               "scheduler_gamma": sch.gamma,
-              "scale": rff_scale}
+              "scale": rff_scale,
+              "preproc": pp,
+              "dyn_eps": dyn_eps}
     
     params["spec"] = ["dx", "dy", "dz", "curl", "div", "lapl", "gdiv", "bias"] # Static
     #params["spec"] = ["dx", "dy", "dz", "curl", "div", "bias", "hlapl", "hgdiv"] # Dynamic
+    #params["spec"] = ["dx", "dy", "dz", "curl", "div", "bias", "iwhlapl", "iwhgdiv"] # Dynamic Kelvin-Voigt
     
     x_data = hsi.utils.gen_coord_grid(y_data, y_spacing)
 

@@ -54,6 +54,7 @@ def main():
         freq_dim = [0]
         f_reshape = [frequencies.shape[0] if i in freq_dim else 1 for i in range(y_data.ndim)]
         target = -((frequencies * 2 * np.pi) ** 2).reshape(*f_reshape) * y_filtered
+        tstd = np.abs(target).std()
 
         # Dynamics
         strain_tensor = torch.tensor(strain_tensor, device=device, dtype = torch.complex64)
@@ -66,7 +67,7 @@ def main():
         t_gdiv = hsi.utils.reshape_data(t_gdiv, reshape_dims=(1,2,3))
 
         #dynamic = [] # Static case
-        dynamic = [hsi.model.HLaplBasis(strain_tensor / target.std(), t_lapl / target.std()), hsi.model.HGDivBasis(t_gdiv / target.std(), t_div / target.std())] # Dynamic case
+        dynamic = [hsi.model.HLaplBasis(strain_tensor / tstd, t_lapl / tstd), hsi.model.HGDivBasis(t_gdiv / tstd, t_div / tstd)] # Dynamic case
       
 
         # Predictor

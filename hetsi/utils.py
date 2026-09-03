@@ -93,7 +93,7 @@ def _dist_check(x0, x, r):
     
     return output
 
-def gen_4tp_mask(w_ratio = 1., dist_corr = 5e-4):
+def gen_4tp_mask(w_ratio = 1., dist_corr = 0.):
     """Generate an insert mask for the 4-Target FEM phantom from the BIOQIC group.
     returns: mask - ndarray[Bool], based on visual inspection of input data."""
 
@@ -106,7 +106,7 @@ def gen_4tp_mask(w_ratio = 1., dist_corr = 5e-4):
 
     # Phantom assumed to be symmetric in z, only check in x,y
     # Center aligned with middle in dim 1
-    # Dim 0 set by visual inspection.
+    # Dim 0 set by visual inspection of HetSI Dynamic output centers
     
     x0_list = [np.array([x_map[17,0,0], x_map[-1,-1, 1]/2 + 0.5e-3]),
                np.array([x_map[31,0,0], x_map[-1,-1, 1]/2 + 0.5e-3]),
